@@ -1,0 +1,178 @@
+[
+  {
+    "id": 1,
+    "cityName": "London",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/london2.jpg",
+    "price": 113,
+    "feature": "europe",
+    "recommended": true
+  },
+  {
+    "id": 2,
+    "cityName": "Paris",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/paris2.jpg",
+    "price": 111,
+    "feature": "europe",
+    "recommended": true
+  },
+  {
+    "id": 3,
+    "cityName": "NewYork",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/newyork2.jpg",
+    "price": 133,
+    "feature": "us",
+    "recommended": true
+  },
+  {
+    "id": 4,
+    "cityName": "Dubai",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/dubai2.jpg",
+    "price": 76,
+    "feature": "exotic",
+    "recommended": true
+  },
+  {
+    "id": 5,
+    "cityName": "Melbourne",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/melbourne2.jpg",
+    "price": 93,
+    "feature": "exotic",
+    "recommended": true
+  },
+  {
+    "id": 6,
+    "cityName": "Tokyo",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/tokyo2.jpg",
+    "price": 89,
+    "feature": "asia",
+    "recommended": true
+  },
+  {
+    "id": 7,
+    "cityName": "Capetown",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/capetown2.jpg",
+    "price": 88,
+    "feature": "exotic",
+    "recommended": true
+  },
+  {
+    "id": 9,
+    "cityName": "Mosco",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/moscow2.jpg",
+    "price": 79,
+    "feature": "exotic",
+    "recommended": true
+  },
+  {
+    "id": 10,
+    "cityName": "rio de janeiro",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/rio2.jpg",
+    "price": 125,
+    "feature": "exotic",
+    "recommended": false
+  },
+  {
+    "id": 11,
+    "cityName": "Lisbon",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/lisbon2.jpg",
+    "price": 112,
+    "feature": "europe",
+    "recommended": false
+  },
+  {
+    "id": 12,
+    "cityName": "Chicago",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/chicago2.jpg",
+    "price": 120,
+    "feature": "us",
+    "recommended": false
+  },
+  {
+    "id": 13,
+    "cityName": "las vegas",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/lasvegas2.jpg",
+    "price": 79,
+    "feature": "us",
+    "recommended": false
+  },
+  {
+    "id": 14,
+    "cityName": "Jerusalem",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/Jerusalem2.jpg",
+    "price": 101,
+    "feature": "exotic",
+    "recommended": false
+  },
+  {
+    "id": 15,
+    "cityName": "Florence",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/florence2.jpg",
+    "price": 98,
+    "feature": "europe",
+    "recommended": false
+  },
+  {
+    "id": 16,
+    "cityName": "Kuala Lumpur",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/KualaLumpur2.jpg",
+    "price": 77,
+    "feature": "asia",
+    "recommended": false
+  },
+  {
+    "id": 17,
+    "cityName": "Singapore",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/singapore2.jpg",
+    "price": 88,
+    "feature": "asia",
+    "recommended": false
+  },
+  {
+    "id": 18,
+    "cityName": "Shanghai",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/shanghai2.jpg",
+    "price": 82,
+    "feature": "asia",
+    "recommended": false
+  },
+  {
+    "id": 19,
+    "cityName": "Seoul",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/seoul2.jpg",
+    "price": 79,
+    "feature": "asia",
+    "recommended": false
+  },
+  {
+    "id": 20,
+    "cityName": "Los Angeles",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/losangeles2.jpg",
+    "price": 121,
+    "feature": "us",
+    "recommended": false
+  },
+  {
+    "id": 21,
+    "cityName": "Seattle",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/seattle2.jpg",
+    "price": 101,
+    "feature": "us",
+    "recommended": false
+  },
+  {
+    "id": 22,
+    "cityName": "Hawaii",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/hawaii2.jpg",
+    "price": 169,
+    "feature": "beach",
+    "recommended": false
+  },
+  {
+    "id": 23,
+    "cityName": "Bora Bora",
+    "image": "https://airbnb-clone-prexel-images.s3.amazonaws.com/cities/borabora2.jpg",
+    "price": 221,
+    "feature": "beach",
+    "recommended": false
+  }
+]

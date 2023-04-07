@@ -10,10 +10,17 @@
   "author": "Zihao Song",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.3.5",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mongoose": "^5.13.16"
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^5.13.16",
+    "node-fetch": "^2.6.1",
+    "sharp": "^0.32.0",
+    "stripe": "^11.17.0"
   },
-  "devDependencies": {},
   "keywords": []
 }
