@@ -4,13 +4,17 @@ const dotenv = require("dotenv");
 
 const generateToken = (user) => {
   console.log(process.env.JWT_SECRET);
-  return jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+  return jwt.sign({ id: user.email }, process.env.JWT_SECRET, {
     expiresIn: "1d",
   });
 };
 
 const verifyToken = (token) => {
   return jwt.verify(token, process.env.JWT_SECRET);
+};
+
+const decodeToken = (token) => {
+  return jwt.decode(token);
 };
 
 const hashPassword = async (password) => {
@@ -22,4 +26,10 @@ const comparePassword = async (password, hashPassword) => {
   return bcrypt.compare(password, hashPassword);
 };
 
-module.exports = { generateToken, verifyToken, hashPassword, comparePassword };
+module.exports = {
+  generateToken,
+  verifyToken,
+  decodeToken,
+  hashPassword,
+  comparePassword,
+};

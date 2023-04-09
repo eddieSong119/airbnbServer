@@ -1,5 +1,7 @@
 const Users = require("../models/users");
+const Booking = require("../models/booking");
 const {
+  verifyToken,
   hashPassword,
   generateToken,
   comparePassword,
@@ -48,8 +50,11 @@ exports.userLogin = async (req, res) => {
 };
 
 exports.getBookings = async (req, res) => {
+  const { token } = req.body;
+  const userEmail = verifyToken(token).id;
   try {
-    console.log(req.body);
+    const bookings = await Booking.find({ userEmail });
+    res.status(200).json(bookings);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });

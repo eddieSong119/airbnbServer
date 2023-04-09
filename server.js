@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-require('dotenv').config()
+require("dotenv").config();
 const indexRouter = require("./routes/index");
 const citiesRouter = require("./routes/cities");
 const activitiesRouter = require("./routes/activities");
@@ -13,6 +13,8 @@ const pointsRouter = require("./routes/points");
 const searchRoute = require("./routes/search");
 const usersRoute = require("./routes/users");
 const paymentRoute = require("./routes/payment");
+const stripeWebhookRoute = require("./routes/webhook");
+const reservationRoute = require("./routes/reservation");
 
 const app = express();
 
@@ -22,10 +24,10 @@ app.use(cors());
 
 // Connect to your MongoDB database using Mongoose
 mongoose
-  .connect(
-    "mongodb+srv://eddiesong119:980119Szh@cluster0.qx1jpfy.mongodb.net/AirbnbServer?retryWrites=true&w=majority",
-    { useNewUrlParser: true, useUnifiedTopology: true }
-  )
+  .connect(process.env.DB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("mongodb connected");
     // List all collections in the database
@@ -49,8 +51,12 @@ app.use("/points", pointsRouter);
 app.use("/search", searchRoute);
 app.use("/users", usersRoute);
 app.use("/payment", paymentRoute);
+app.use("/webhook", stripeWebhookRoute);
+app.use("/reservation", reservationRoute);
 
 // Start the server
-app.listen(3080, () => console.log("Server started on port 3080"));
+app.listen(process.env.PORT, () =>
+  console.log(`Server started on port ${process.env.PORT}`)
+);
 
 module.exports = mongoose;

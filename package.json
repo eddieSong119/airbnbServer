@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Server for the Airbnb-clone project",
   "main": "server.js",
+  "engines": {
+    "node": "18.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
@@ -22,5 +25,13 @@
     "sharp": "^0.32.0",
     "stripe": "^11.17.0"
   },
-  "keywords": []
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eddieSong119/airbnbServer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eddieSong119/airbnbServer/issues"
+  },
+  "homepage": "https://github.com/eddieSong119/airbnbServer#readme"
 }
