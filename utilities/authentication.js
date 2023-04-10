@@ -14,6 +14,8 @@ const verifyToken = (token) => {
 };
 
 const decodeToken = (token) => {
+  console.log(`token is ${token}`);
+  console.log(`decodedTokenIs: ${jwt.decode(token)}`);
   return jwt.decode(token);
 };
 

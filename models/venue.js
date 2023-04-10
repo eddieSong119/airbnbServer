@@ -5,7 +5,7 @@ const venueSchema = new mongoose.Schema({
   uid: { type: Number, required: true, unique: false },
   title: { type: String, required: true, unique: false },
   location: { type: String, required: true, unique: false },
-  location_discription: { type: String, required: true, unique: false },
+  location_description: { type: String, required: true, unique: false },
   rating: { type: Number, required: true, unique: false },
   guests: { type: Number, required: true, unique: false },
   pricePerNight: { type: Number, required: true, unique: false },

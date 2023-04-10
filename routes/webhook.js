@@ -1,8 +1,9 @@
 const express = require("express");
-const webhhookController = require("../controllers/webhookController");
+const webhookController = require("../controllers/webhookController");
+const { verifySignature } = require("../utilities/verifySignature");
 
 const router = express.Router();
 
-router.post("/webhook", webhhookController.recordSucess);
+router.post("", verifySignature, webhookController.recordSuccess);
 
 module.exports = router;

@@ -14,13 +14,22 @@ const searchRoute = require("./routes/search");
 const usersRoute = require("./routes/users");
 const paymentRoute = require("./routes/payment");
 const stripeWebhookRoute = require("./routes/webhook");
+const webhhookController = require("./controllers/webhookController");
 const reservationRoute = require("./routes/reservation");
+const Booking = require("./models/booking");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+app.use(
+  express.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
+app.use(express.urlencoded({ extended: true }));
 
 // Connect to your MongoDB database using Mongoose
 mongoose
@@ -51,7 +60,7 @@ app.use("/points", pointsRouter);
 app.use("/search", searchRoute);
 app.use("/users", usersRoute);
 app.use("/payment", paymentRoute);
-app.use("/webhook", stripeWebhookRoute);
+app.use("/stripe_webhooks", stripeWebhookRoute);
 app.use("/reservation", reservationRoute);
 
 // Start the server

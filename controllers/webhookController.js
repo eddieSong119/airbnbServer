@@ -1,35 +1,33 @@
 const Booking = require("../models/booking");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const mongoose = require("mongoose");
 
-exports.recordSucess = async (req, res) => {
-  const signature = req.headers["stripe-signature"];
-  const endpointSecretKey = process.env.JWT_SECRET;
-  let event;
+exports.recordSuccess = async (req, res) => {
+  const { eventType } = req;
+  console.log(`in controller, type is ${eventType}`);
+  console.log(`req is ${req}`);
+  const session = req.body;
 
-  try {
-    event = stripe.webhooks.constructEvent(
-      req.body,
-      signature,
-      endpointSecretKey
-    );
-  } catch (err) {
-    console.log(err);
-    res.status(400).send(`Webhook Error: ${err.message}`);
-    return;
-  }
-
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
+  if (eventType === "checkout.session.completed") {
+    console.log(`in controller passed the if check`);
     const sessionId = session.id;
-    const { venueDataString, ...restBookingData } = session.metadata;
-    const venueData = JSON.parse(venueDataString);
-    const bookingData = { venueData, ...restBookingData };
-    // const bookingData = session.metadata;
-    const newBooking = new Booking({
-      id: sessionId,
-      status: "confirmed",
-      ...bookingData,
+    const { recordId } = session.metadata;
+    console.log(`recordId is: ${recordId}`);
+    // const objectId = new mongoose.Types.ObjectId(recordId);
+    // console.log(`record objectID is ${objectId}`);
+    const unpaidBooking = await Booking.findById(recordId, function (err, doc) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`document is : ${doc}`);
+      }
     });
-    await newBooking.save();
+    console.log(`unpaidbooking id is: ${unpaidBooking._id}`);
+    unpaidBooking.status = "confirmed";
+    unpaidBooking.stripeId = sessionId;
+    await unpaidBooking.save();
+    res.status(200).send("Webhook received");
+  } else {
+    res.status(400).send("Webhook received but type error");
   }
-  res.status(200).send("Webhook received");
 };

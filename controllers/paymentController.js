@@ -14,12 +14,27 @@ exports.createSession = async (req, res) => {
       checkIn,
       checkOut,
       token,
-      numberOfGuest,
+      numberOfGuests,
       currency,
     } = req.body;
-    const { details, shortVenueData } = venueData;
-    const venueDataString = JSON.stringify(shortVenueData);
     const userEmail = verifyToken(token).id;
+    const newBooking = new Booking({
+      stripeId: "",
+      status: "unpaid",
+      venueData,
+      totalPrice,
+      diffDays,
+      pricePerNight,
+      checkIn,
+      checkOut,
+      userEmail,
+      numberOfGuests,
+      currency,
+    });
+    const unpaidBooking = await newBooking.save();
+    const recordId = unpaidBooking._id.toString();
+    console.log(recordId);
+    console.log(unpaidBooking);
     // create session to the stripe checkout
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -39,21 +54,13 @@ exports.createSession = async (req, res) => {
       success_url: `https://airbnb-clone.eddiezihaosong.com/payment-success/{CHECKOUT_SESSION_ID}`,
       cancel_url: "https://airbnb-clone.eddiezihaosong.com",
       metadata: {
-        venueDataString,
-        totalPrice,
-        diffDays,
-        pricePerNight,
-        checkIn,
-        checkOut,
-        userEmail,
-        numberOfGuest,
-        currency,
+        recordId,
       },
     });
     res.json({ id: session.id });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "missingData" });
+    res.status(500).json({ message: "missingData", err });
   }
 };
 
@@ -61,7 +68,7 @@ exports.getNewBooking = async (req, res) => {
   const { stripeToken, token } = req.body;
   const userEmail = decodeToken(token).id;
   try {
-    const booking = await Booking.findOne({ id: stripeToken });
+    const booking = await Booking.findOne({ stripeId: stripeToken });
     if (booking.userEmail === userEmail) {
       const userData = await User.findOne({ email: userEmail }, "email -_id");
       res.status(200).json({ reservationDetails: booking, userData });
@@ -71,5 +78,26 @@ exports.getNewBooking = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "noMatchBooking" });
+  }
+};
+
+exports.checkBookingStatus = async (req, res) => {
+  const seeBody = req.body;
+  const bookingId = req.body.stripeToken;
+  try {
+    const booking = await Booking.findOne(
+      { stripeId: bookingId },
+      (err, doc) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(`booking found is ${doc}`);
+        }
+      }
+    );
+    res.status(200).json({ status: booking.status });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "serverError", seeBody, bookingId });
   }
 };
