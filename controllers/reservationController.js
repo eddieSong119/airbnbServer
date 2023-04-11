@@ -5,7 +5,7 @@ exports.cancelById = async (req, res) => {
   const { token, bookingId } = req.body;
   const userEmail = decodeToken(token).id;
   try {
-    await Booking.cancelById(bookingId, userEmail);
+    await Booking.cancelById({ stripeId: bookingId }, userEmail);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: `${err}` });

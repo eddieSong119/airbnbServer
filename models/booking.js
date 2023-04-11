@@ -44,12 +44,12 @@ bookingSchema.statics.getById = async (Id) => {
     } else {
       console.log(`document is ${doc}`);
     }
-    return booking;
   });
+  return booking;
 };
 
 bookingSchema.statics.cancelById = async (Id, userEmail) => {
-  const bookingToCancel = await Booking.findById(Id, (err, doc) => {
+  const bookingToCancel = await Booking.findOne(Id, (err, doc) => {
     if (err) {
       console.log(err);
       res.status(404).json({ msg: "noSuchBooking" });
