@@ -18,7 +18,7 @@ exports.createSession = async (req, res) => {
       currency,
     } = req.body;
     const userEmail = verifyToken(token).id;
-    const newBooking = new Booking({
+    const unpaidBooking = await Booking.createBooking({
       stripeId: "",
       status: "unpaid",
       venueData,
@@ -31,10 +31,7 @@ exports.createSession = async (req, res) => {
       numberOfGuests,
       currency,
     });
-    const unpaidBooking = await newBooking.save();
     const recordId = unpaidBooking._id.toString();
-    console.log(recordId);
-    console.log(unpaidBooking);
     // create session to the stripe checkout
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -64,13 +61,15 @@ exports.createSession = async (req, res) => {
   }
 };
 
+// This function is used when website turns to payment-success page,
+// and fetch the information of the just paid booking
 exports.getNewBooking = async (req, res) => {
   const { stripeToken, token } = req.body;
   const userEmail = decodeToken(token).id;
   try {
-    const booking = await Booking.findOne({ stripeId: stripeToken });
+    const booking = await Booking.getOneByQuery({ stripeId: stripeToken });
     if (booking.userEmail === userEmail) {
-      const userData = await User.findOne({ email: userEmail }, "email -_id");
+      const userData = await User.getByQuery({ email: userEmail });
       res.status(200).json({ reservationDetails: booking, userData });
     } else {
       throw new Error();
@@ -81,20 +80,13 @@ exports.getNewBooking = async (req, res) => {
   }
 };
 
+// This function is used for when loading payment-success page, the website will send polling requests
+// to check if booking document in database has been modified after the server received the webhook request from Stripe
 exports.checkBookingStatus = async (req, res) => {
   const seeBody = req.body;
   const bookingId = req.body.stripeToken;
   try {
-    const booking = await Booking.findOne(
-      { stripeId: bookingId },
-      (err, doc) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(`booking found is ${doc}`);
-        }
-      }
-    );
+    const booking = await Booking.getOneByQuery({ stripeId: bookingId });
     res.status(200).json({ status: booking.status });
   } catch (err) {
     console.log(err);

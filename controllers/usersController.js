@@ -20,8 +20,7 @@ exports.userRegister = async (req, res) => {
       return res.json({ msg: "userExists" });
     }
     const hashedPassword = await hashPassword(password);
-    const newUser = new Users({ email, password: hashedPassword });
-    await newUser.save();
+    const newUser = await Users.createUser({ email, password: hashedPassword });
     const token = generateToken(newUser);
     res.status(201).json({ msg: "userAdded", email, token });
   } catch (err) {
@@ -33,7 +32,7 @@ exports.userRegister = async (req, res) => {
 exports.userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await Users.findOne({ email });
+    const user = await Users.getByQueryWithPass({ email });
     if (!user) {
       return res.json({ msg: "noEmail" });
     }
@@ -53,7 +52,7 @@ exports.getBookings = async (req, res) => {
   const { token } = req.body;
   const userEmail = verifyToken(token).id;
   try {
-    const bookings = await Booking.find({ userEmail });
+    const bookings = await Booking.getByQuery({ userEmail });
     res.status(200).json(bookings);
   } catch (err) {
     console.error(err);

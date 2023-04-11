@@ -4,16 +4,10 @@ exports.getFeatured = async (req, res) => {
   try {
     const feature = req.params.feature;
     if (feature === "recommended") {
-      const cities = await City.find(
-        { recommended: true },
-        "id cityName image price feature -_id"
-      );
+      const cities = await City.getByQuery({ recommended: true });
       res.json(cities);
     } else {
-      const cities = await City.find(
-        { feature },
-        "id cityName image price feature -_id"
-      );
+      const cities = await City.getByQuery({ feature });
       let header;
       switch (feature) {
         case "exotic":

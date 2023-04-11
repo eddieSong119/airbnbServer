@@ -4,18 +4,15 @@ exports.getFeatured = async (req, res) => {
   try {
     const feature = req.params.feature;
     if (feature === "today") {
-      const activities = await Activity.find(
-        {},
-        "id activityType title cost rating totalRatings image -_id"
-      ).limit(6);
+      // Mocking we have the "today" feature
+      // Actually we don't
+      const allActivities = await Activity.getByQuery({});
+      const activities = allActivities.slice(0, 6);
       res.json(activities);
     } else {
-      const activities = await Activity.find(
-        {
-          activityType: feature.toUpperCase(),
-        },
-        "id activityType title cost rating totalRatings image -_id"
-      );
+      const activities = await Activity.getByQuery({
+        activityType: feature.toUpperCase(),
+      });
       res.json(activities);
     }
   } catch (err) {

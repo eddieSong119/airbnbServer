@@ -5,22 +5,18 @@ exports.getFeatured = async (req, res) => {
   try {
     const feature = req.params.feature;
     if (feature === "superHost") {
-      const venues = await Venue.find(
-        { superHost: true },
-        "id title location_description rating pricePerNight imageUrl -_id"
-      ).limit(8);
+      const allVenues = await Venue.getByQuery({ superHost: true });
+      const venues = allVenues.slice(0, 8);
       const response = {
-        header: "Places to stay around the world",
+        header: "Stay with a Superhost",
         venues,
       };
       res.json(response);
     } else if (feature === "recommended") {
-      const venues = await Venue.find(
-        { recommended: true },
-        "id title location_description rating pricePerNight imageUrl -_id"
-      ).limit(8);
+      const allVenues = await Venue.getByQuery({ recommended: true });
+      const venues = allVenues.slice(0, 8);
       const response = {
-        header: "Stay with a Superhost",
+        header: "Places to stay around the world",
         venues,
       };
       res.json(response);
@@ -42,10 +38,7 @@ exports.getByCityName = async (req, res) => {
 
     // consider of the current mock data amount, this function returns all venues,
     // which means all cities have the same venues.
-    const venues = await Venue.find(
-      { location: cityName },
-      "id title location rating pricePerNight imageUrl -_id"
-    );
+    const venues = await Venue.getByQuery({ location: cityName });
     const response = { header: `place in ${cityName}`, venues };
     res.json(response);
   } catch (err) {

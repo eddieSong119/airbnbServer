@@ -13,6 +13,24 @@ const activitySchema = new mongoose.Schema({
   image: { type: String, required: true, unique: false },
 });
 
+activitySchema.statics.getByQuery = async (query) => {
+  const activities = await Activity.find(
+    query,
+    "id activityType title cost rating totalRatings image -_id"
+  );
+  return activities;
+};
+
+activitySchema.statics.getFullDocByQuery = async (query) => {
+  const activities = await Activity.find(query);
+  return activities;
+};
+
+activitySchema.statics.getById = async (id) => {
+  const activity = await Activity.findOne(id, "-_id");
+  return activity;
+};
+
 const Activity = mongoose.model("Activity", activitySchema, "activity");
 
 module.exports = Activity;

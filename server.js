@@ -22,6 +22,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const app = express();
 app.use(cors());
 
+// resolve request body into JSON, and define verify middleware for keeping raw request body for Stripe event construction
 app.use(
   express.json({
     verify: (req, res, buf) => {
@@ -40,6 +41,7 @@ mongoose
   .then(() => {
     console.log("mongodb connected");
     // List all collections in the database
+    // removed the collection output
     mongoose.connection.db.listCollections().toArray((err, collections) => {
       if (err) {
         console.error(err);

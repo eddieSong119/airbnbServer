@@ -5,39 +5,18 @@ const Activity = require("../models/activity");
 exports.getByTerm = async (req, res) => {
   try {
     const searchTerm = req.params.term;
-    const cityResults = await City.find(
-      {
-        cityName: { $regex: searchTerm, $options: "i" },
-      },
-      (err, city) => {
-        if (err) {
-          console.log(err);
-        }
-      }
-    );
-    const venueResults = await Venue.find(
-      {
-        title: { $regex: searchTerm, $options: "i" },
-        details: { $regex: searchTerm, $options: "i" },
-        location: { $regex: searchTerm, $options: "i" },
-      },
-      (err, venue) => {
-        if (err) {
-          console.log(err);
-        }
-      }
-    );
-    const activityResults = await Activity.find(
-      {
-        description: { $regex: searchTerm, $options: "i" },
-        description: { $regex: searchTerm, $options: "i" },
-      },
-      (err, activity) => {
-        if (err) {
-          console.log(err);
-        }
-      }
-    );
+    const cityResults = await City.getFullDocByQuery({
+      cityName: { $regex: searchTerm, $options: "i" },
+    });
+    const venueResults = await Venue.getFullDocByQuery({
+      title: { $regex: searchTerm, $options: "i" },
+      details: { $regex: searchTerm, $options: "i" },
+      location: { $regex: searchTerm, $options: "i" },
+    });
+    const activityResults = await Activity.getFullDocByQuery({
+      description: { $regex: searchTerm, $options: "i" },
+      description: { $regex: searchTerm, $options: "i" },
+    });
     const searchResult = {
       venues: venueResults,
       cities: cityResults,

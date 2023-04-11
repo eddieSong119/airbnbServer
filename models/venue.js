@@ -17,6 +17,27 @@ const venueSchema = new mongoose.Schema({
   superHost: { type: Boolean, required: true, unique: false },
 });
 
+venueSchema.statics.getByQuery = async (query) => {
+  const venues = await Venue.find(
+    query,
+    "id title location location_description rating pricePerNight imageUrl -_id"
+  );
+  return venues;
+};
+
+venueSchema.statics.getFullDocByQuery = async (query) => {
+  const venues = await Venue.find(query);
+  return venues;
+};
+
+venueSchema.statics.getById = async (id) => {
+  const venue = await Venue.findOne(
+    id,
+    "id uid title location location_description rating guests pricePerNight details amenities imageUrl points -_id"
+  );
+  return venue;
+};
+
 const Venue = mongoose.model("Venue", venueSchema, "venue");
 
 module.exports = Venue;

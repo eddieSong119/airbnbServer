@@ -27,6 +27,57 @@ const bookingSchema = new mongoose.Schema({
   currency: { type: String, required: true, unique: false },
 });
 
+bookingSchema.statics.getByQuery = async (query) => {
+  const bookings = await Booking.find(query);
+  return bookings;
+};
+
+bookingSchema.statics.getOneByQuery = async (query) => {
+  const booking = await Booking.findOne(query);
+  return booking;
+};
+
+bookingSchema.statics.getById = async (Id) => {
+  const booking = await Booking.findById(Id, (err, doc) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(`document is ${doc}`);
+    }
+    return booking;
+  });
+};
+
+bookingSchema.statics.cancelById = async (Id, userEmail) => {
+  const bookingToCancel = await Booking.findById(Id, (err, doc) => {
+    if (err) {
+      console.log(err);
+      res.status(404).json({ msg: "noSuchBooking" });
+    } else {
+      console.log(doc);
+    }
+  });
+  if (bookingToCancel.userEmail === userEmail) {
+    bookingToCancel.status = "cancelled";
+    const cancelledBooking = await bookingToCancel.save();
+    return cancelledBooking;
+  } else {
+    throw new Error(
+      `Booking not belongs to this user, the userEmail is ${userEmail}, but the booking belongs to ${bookingToCancel.userEmail}`
+    );
+  }
+};
+
+bookingSchema.statics.createBooking = async (userData) => {
+  try {
+    const newBooking = new Booking(userData);
+    const savedBooking = await newBooking.save();
+    return savedBooking;
+  } catch (err) {
+    throw err;
+  }
+};
+
 const Booking = mongoose.model("Booking", bookingSchema, "booking");
 
 module.exports = Booking;
